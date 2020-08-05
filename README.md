@@ -43,9 +43,9 @@ For Linux/Linux, use:
 ```bash
 python3 PostComments.py
 ```
-Login email and password for your LinkedIn account will be asked.
+Login email and password for your LinkedIn account will be asked and process would start.
 
 ## Scope of Improvement
-* Main problem is that for scraping all comments, all comments need to be loaded first. This involves: find the "Load more comments" button, clicks, sleeps for 5 seconds and continues this until all comments are loaded. The **sleep strategy** of 5 seconds work well, but may fail on slow internet connection and needs to be increased. There are certain commands in Selenium to avoid this but I was unsuccessful. 
+* Main problem is that for scraping all comments, they need to be loaded first. This involves: find the "Load more comments" button, clicks, sleeps for 5 seconds and continues this until all comments are loaded. Usually the **sleep strategy** of 5 seconds works well, but may fail on slow internet connection and needs to be increased. There are certain commands in Selenium to avoid this but I was unsuccessful. 
 
 If you can do it or have any suggestions, contribute!:smile:
