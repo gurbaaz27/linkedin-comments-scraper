@@ -10,7 +10,7 @@ import csv
 post_url = check_post_url(Config.post_url)
 
 ##### Writer csv
-writer = csv.writer(open(Config.file_name, 'w'))
+writer = csv.writer(open(Config.file_name, 'w', encoding='utf-8'))
 writer.writerow(['Name','Email','Comment'])
 
 linkedin_username, linkedin_password = login_details()
