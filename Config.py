@@ -2,6 +2,7 @@ username_name = 'session_key'
 password_name = 'session_password'
 load_comments_class = 'comments-comments-list__load-more-comments-button'
 comment_class = 'comments-comment-item__main-content'
+headline_class = 'comments-post-meta__headline'
 name_class = 'comments-post-meta__name'
 file_name = 'comments_data.csv'
 
