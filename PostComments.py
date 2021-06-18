@@ -44,6 +44,9 @@ load_more_comments(Config.load_comments_class, driver)
 comments = driver.find_elements_by_class_name(Config.comment_class)
 comments = [comment.text.strip() for comment in comments]
 
+headlines = driver.find_elements_by_class_name(Config.headline_class)
+headlines = [headline.text.strip() for headline in headlines]
+
 emails = extract_emails(comments)
 
 names = driver.find_elements_by_class_name(Config.name_class)
@@ -53,7 +56,7 @@ names = [name.text.split('\n')[0] for name in names]
 # print(names[:10])
 # print(emails[:10])
 
-write_data2csv(names, emails, comments, writer)
+write_data2csv(names, headlines, emails, comments, writer)
 
 end = time()       # Finishing Time
 time_spent = end-start # Time taken by script
