@@ -54,9 +54,10 @@ def extract_emails(comments):
             emails.append('-')
     return emails
 
-def write_data2csv(names, emails, comments, writer):
-    for name,email,comment in zip(names,emails,comments):
+def write_data2csv(names, headlines, emails, comments, writer):
+    for name,headline,email,comment in zip(names,headlines,emails,comments):
         writer.writerow([name,
+                         headline,
                         email,
                         comment.encode('utf-8')])
         # utf-8 encoding helps to deal with emojis
