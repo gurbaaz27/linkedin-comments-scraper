@@ -9,6 +9,7 @@ Interested!
 I don't like this thing, like you can already share link in the post itself :angry:. **Nevertheless**, I thought to automate this work of collecting all emails.  
 All the comments, with columns of 
 * Name of the person commented
+* Designation of the person
 * Email address (if present in comment)
 * Comment (UTF-8 encoded)
 
