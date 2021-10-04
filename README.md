@@ -58,6 +58,7 @@ optional arguments:
   --headless      Go headless browsing
   --download-pfp  Download profile pictures of commentors
 ```
+> *__NOTE__*: Even if the flag `--download-pfp` isn't provided, URLs of image would get stored in the output csv.
 
 - Run the script for Windows:
 ```bash
