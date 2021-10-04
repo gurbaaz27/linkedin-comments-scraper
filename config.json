@@ -6,6 +6,8 @@
     "comment_class" : "comments-comment-item__main-content",
     "headline_class" : "comments-post-meta__headline",
     "name_class" : "comments-post-meta__name",
-    "file_name" : "comments_data.csv",
-    "post_url": ""
+    "avatar_class" : "comments-post-meta__actor-link",
+    "filename" : "comments-data",
+    "dirname": "profile-pics",
+    "post_url": "https://www.linkedin.com/posts/benawad_programming-coding-softwareengineering-activity-6850826075031830528-qYBD"
 }

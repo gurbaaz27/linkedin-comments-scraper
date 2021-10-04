@@ -1,5 +1,14 @@
 # LinkedIn Comments Scraper <img src="assets/linkedin_logo.png" width="50" height="50"></img>
 
+## Updates 🚀
+
+- [x] Fix utf-8 encoding error
+- [x] Shift configuration from Config.py to config.json
+- [x] Add support for profile pictures of commentors
+- [ ] Add support for pulling images in comment section
+- [x] Add headless support 
+- [ ] Chrome extension
+
 ## Brief Overview
 If you have used LinkedIn, you must have encountered many posts regarding helpful resources, and they would ask email address,to which replies in comments are usually like
 ```bash
@@ -13,7 +22,7 @@ All the comments, with columns of
 * Email address (if present in comment)
 * Comment (UTF-8 encoded)
 
-are stored in a '**comments_data.csv**' file.
+are stored in a csv.
 
 ## Requirements
 * [python](https://www.python.org/) (recommended : 3.7.3)
@@ -31,13 +40,26 @@ pip3 install -r requirements.txt
 
 ## Usage
 
-* In `config.json`, enter the required url of LinkedIn Post in **post_url** variable:
+- In `config.json`, enter the required url of LinkedIn Post in **post_url** variable:
 ```python
-post_url = ''
+post_url = ""
 ```
-If you forget to enter here, it will be asked during run-time of script itself.
-* You can also change csv file name (in which scraped data will be stored) in `config.json` .
-* Run the script for Windows:
+> *__NOTE__*: If you forget to enter here, it will be asked during run-time of script itself.
+
+- You can also change csv file name (in which scraped data will be stored) and dir name (in which profile pics will be downloaded) in `config.json` .
+- Help:
+```
+usage: main.py [-h] [--headless] [--download-pfp]
+
+Linkedin Scraping.
+
+optional arguments:
+  -h, --help      show this help message and exit
+  --headless      Go headless browsing
+  --download-pfp  Download profile pictures of commentors
+```
+
+- Run the script for Windows:
 ```bash
 python main.py
 ```
@@ -46,6 +68,11 @@ For Linux/Linux, use:
 python3 main.py
 ```
 Login email and password for your LinkedIn account will be asked and process would start.
+
+### Configuration
+
+`config.json` contains various fields, containing information about scraping the HTML elements by name or xpath, and other metadata
+
 
 ## Scope of Improvement
 * Main problem is that for scraping all comments, they need to be loaded first. This involves: find the "Load more comments" button, clicks, sleeps for 5 seconds and continues this until all comments are loaded. Usually the **sleep strategy** of 5 seconds works well, but may fail on slow internet connection and needs to be increased. There are certain commands in Selenium to avoid this but I was unsuccessful. 
