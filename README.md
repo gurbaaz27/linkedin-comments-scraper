@@ -30,19 +30,20 @@ pip3 install -r requirements.txt
 ```
 
 ## Usage
-* In Config.py, enter the required url of LinkedIn Post in **post_url** variable:
+
+* In `config.json`, enter the required url of LinkedIn Post in **post_url** variable:
 ```python
 post_url = ''
 ```
 If you forget to enter here, it will be asked during run-time of script itself.
-* You can also change csv file name (in which scraped data will be stored) in Config.py .
+* You can also change csv file name (in which scraped data will be stored) in `config.json` .
 * Run the script for Windows:
 ```bash
-python PostComments.py
+python main.py
 ```
 For Linux/Linux, use:
 ```bash
-python3 PostComments.py
+python3 main.py
 ```
 Login email and password for your LinkedIn account will be asked and process would start.
 
