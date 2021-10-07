@@ -1,7 +1,7 @@
 import shutil
 import json
 import csv
-from utils import *
+from app.utils import *
 from datetime import datetime
 import zipfile
 from io import BytesIO
@@ -27,10 +27,6 @@ def collect_data():
     password = req["password"]
     post_url = req["posturl"]
     download_pfp = req["downloadpfp"]
-    # email = request.form["email"]
-    # password = request.form["password"]
-    # post_url = request.form["posturl"]
-    # download_pfp = request.form["downloadpfp"]
 
     with open(
         "config.json",
@@ -50,7 +46,7 @@ def collect_data():
     writer.writerow(["Name", "Profile Picture", "Designation", "Email", "Comment"])
 
     options = Options()
-    options.headless = False
+    options.headless = True
     driver = webdriver.Chrome(
         options=options, executable_path=ChromeDriverManager().install()
     )
@@ -95,6 +91,8 @@ def collect_data():
     write_data2csv(names, avatars, headlines, emails, comments, writer)
     csvfile.close()
 
+    print("%d linkedin post comments scraped" % (len(names)))
+
     memory_file = BytesIO()
 
     zipfilename = f"data{unique_suffix}.zip"
@@ -120,5 +118,5 @@ def collect_data():
     )
 
 
-if __name__ == "__main__":
-    app.run()
+# if __name__ == "__main__":
+#     app.run()
