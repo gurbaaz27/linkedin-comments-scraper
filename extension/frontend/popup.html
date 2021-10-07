@@ -5,28 +5,33 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- <script src="bootstrap.min.js"></script>
-    <script src="jquery.min.js"></script> -->
     <script src="jquery.min.js"></script>
     <link rel="stylesheet" href="bootstrap.min.css">
-    <link rel="stylesheet" href="style.css">
     <script src="bootstrap.min.js" ></script>
 
     <title>Home</title>
 </head>
 <body>
-    <div class="wrapper fadeInDown">
-        <div id="formContent">
-            <form>
-                <input type="text" id="email" class="fadeIn second" name="login" placeholder="Email">
-                <input type="password" id="password" class="fadeIn third" name="login" placeholder="Password">
-                <input type="text" id="posturl" class="fadeIn fourth" name="login" placeholder="Post URL">
-                <input type="radio" id="downloadpfp" class="fadeIn fifth" name="login" value="Download profile pictures">
-                <label for="downloadpfp">Download profile pictures</label>
-                <button type="submit" class="btn btn-default">Start scraping</button>
-            </form>
+    <form method="POST"  onsubmit="submit_message(event);">
+        <div class="form-group">
+          <label for="email">Email address</label>
+          <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
+          <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
         </div>
-    </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" class="form-control" id="password" placeholder="Password">
+        </div>
+        <div class="form-group">
+            <label for="posturl">Post URL</label>
+            <input type="url" class="form-control" id="posturl" placeholder="URL">
+        </div>
+        <div class="form-group form-check">
+          <input type="checkbox" class="form-check-input" id="downloadpfp">
+          <label class="form-check-label" for="downloadpfp">Download profile pictures</label>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
       <script src="popup.js"></script>
 </body>
 </html>

@@ -4,12 +4,15 @@ import csv
 from utils import *
 from datetime import datetime
 import zipfile
+from io import BytesIO
 from flask import Flask, request, send_file
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 
 @app.route("/", methods=["GET"])
@@ -19,10 +22,15 @@ def hello():
 
 @app.route("/api", methods=["POST"])
 def collect_data():
-    email = request.form["email"]
-    password = request.form["password"]
-    post_url = request.form["posturl"]
-    download_pfp = request.form["downloadpfp"]
+    req = request.get_json()
+    email = req["email"]
+    password = req["password"]
+    post_url = req["posturl"]
+    download_pfp = req["downloadpfp"]
+    # email = request.form["email"]
+    # password = request.form["password"]
+    # post_url = request.form["posturl"]
+    # download_pfp = request.form["downloadpfp"]
 
     with open(
         "config.json",
@@ -87,20 +95,28 @@ def collect_data():
     write_data2csv(names, avatars, headlines, emails, comments, writer)
     csvfile.close()
 
-    zipfilename = f"data{unique_suffix}.zip"
-    zipfolder = zipfile.ZipFile(zipfilename, "w", compression=zipfile.ZIP_STORED)
+    memory_file = BytesIO()
 
-    zipfolder.write(csvfilename)
-    zipfolder.write(dirname)
-    for imgs in os.listdir(dirname):
-        zipfolder.write(f"{dirname}/{imgs}")
-    zipfolder.close()
+    zipfilename = f"data{unique_suffix}.zip"
+    # zipfolder = zipfile.ZipFile(zipfilename, "w", compression=zipfile.ZIP_STORED)
+
+    with zipfile.ZipFile(memory_file, "w") as zf:
+        zf.write(csvfilename)
+        zf.write(dirname)
+        for imgs in os.listdir(dirname):
+            zf.write(f"{dirname}/{imgs}")
+        zf.close()
+
+    memory_file.seek(0)
 
     shutil.rmtree(dirname)
     os.remove(csvfilename)
 
     return send_file(
-        zipfilename, mimetype="zip", download_name=zipfilename, as_attachment=True
+        memory_file,
+        mimetype="application/zip",
+        as_attachment=True,
+        download_name=zipfilename,
     )
 
 

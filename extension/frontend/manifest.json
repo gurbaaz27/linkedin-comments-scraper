@@ -16,6 +16,7 @@
     },
     "permissions": [
         "activeTab",
-        "https://gurbaaz.pythonanywhere.com/api"
+        "https://gurbaaz.pythonanywhere.com/api",
+        "http://127.0.0.1:5000/api"
     ]
 }
