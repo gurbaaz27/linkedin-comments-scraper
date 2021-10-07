@@ -1,0 +1,21 @@
+{
+    "manifest_version": 2,
+    "name": "Linkedin Post Scraper",
+    "description": "Tool to scrape comments (including name, pfp, designation, email(if present), and comment) of a LinkedIn post from the URL of the post.",
+    "version": "1.0",
+    "author": "Gurbaaz Singh Nandra",
+    "icons": {
+        "128": "icon128.png",
+        "48": "icon48.png",
+        "16": "icon16.png"
+    },
+    "browser_action": {
+        "default_icon": "icon.png",
+        "default_title": "Linkedin Post Scraper",
+        "default_popup": "popup.html"
+    },
+    "permissions": [
+        "activeTab",
+        "https://gurbaaz.pythonanywhere.com/api"
+    ]
+}
