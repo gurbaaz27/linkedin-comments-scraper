@@ -15,11 +15,6 @@ app = Flask(__name__)
 CORS(app)
 
 
-@app.route("/", methods=["GET"])
-def hello():
-    return "<h1>Linkedin Comments Scraper</h1><br>Make post request at /api endpoint"
-
-
 @app.route("/api", methods=["POST"])
 def collect_data():
     req = request.get_json()
@@ -29,7 +24,7 @@ def collect_data():
     download_pfp = req["downloadpfp"]
 
     with open(
-        "config.json",
+        "./config.json",
     ) as f:
         Config = json.load(f)
 
@@ -61,6 +56,8 @@ def collect_data():
     sign_in_button = driver.find_element_by_xpath(Config["sign_in_button_xpath"])
     sign_in_button.click()
 
+    print(driver.current_url)
+
     driver.get(post_url)
 
     load_more_comments(Config["load_comments_class"], driver)
@@ -91,7 +88,7 @@ def collect_data():
     write_data2csv(names, avatars, headlines, emails, comments, writer)
     csvfile.close()
 
-    print("%d linkedin post comments scraped" % (len(names)))
+    print(f"{len(names)} linkedin post comments scraped")
 
     memory_file = BytesIO()
 

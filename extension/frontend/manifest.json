@@ -10,13 +10,14 @@
         "16": "icon16.png"
     },
     "browser_action": {
-        "default_icon": "icon.png",
+        "default_icon": "icon128.png",
         "default_title": "Linkedin Post Scraper",
         "default_popup": "popup.html"
     },
     "permissions": [
         "activeTab",
         "https://gurbaaz.pythonanywhere.com/api",
-        "http://127.0.0.1:5000/api"
+        "http://127.0.0.1:5000/api",
+        "https://quiet-brushlands-61908.herokuapp.com/api"
     ]
 }
