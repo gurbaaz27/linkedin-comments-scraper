@@ -1,7 +1,7 @@
 import shutil
 import json
 import csv
-from app.utils import *
+from utils import *
 from datetime import datetime
 import zipfile
 from io import BytesIO
@@ -118,5 +118,5 @@ def collect_data():
     )
 
 
-# if __name__ == "__main__":
-#     app.run()
+if __name__ == "__main__":
+    app.run()
