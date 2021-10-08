@@ -1,3 +1,5 @@
+document.getElementById("linkedinform").addEventListener("submit", submit_message);
+
 function submit_message(event) {
     event.preventDefault();
 
@@ -36,37 +38,3 @@ function submit_message(event) {
         console.log("Fetch error: " + error);
     });
 }
-
-// $(document).ready(function() {
-//     $('form').on('submit', function(event) {
-//     console.log($('#email').val(), $('#password').val(), $('#posturl').val(), $('#downloadpfp').val())
-
-//     var entry = 
-//         {
-//             email : $('#email').val(),
-//             password: $('#password').val(),
-//             posturl: $('#posturl').val(),
-//             downloadpfp: $('#downloadpfp').val()
-//         }
-
-//         console.log(entry)
-
-//     $.ajax({
-//         data : entry,
-//             type : 'POST',
-//             url : 'http://127.0.0.1:5000/api'
-//             })
-//         .done(function(data) {
-//     console.log("DONE")
-//             console.log(data);
-//         //     data.blob()
-//         // blob => {
-//             var binaryData = [];
-//         binaryData.push(data);
-//         const url = window.URL.createObjectURL(new Blob(binaryData, {type: "application/zip"}))
-//         // const url = URL.createObjectURL(data)
-//         document.location = url
-//     });
-//     event.preventDefault();
-//     });
-// });

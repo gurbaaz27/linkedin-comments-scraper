@@ -7,33 +7,32 @@
 
     <script src="jquery.min.js"></script>
     <link rel="stylesheet" href="bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
     <script src="bootstrap.min.js" ></script>
 
     <title>Home</title>
 </head>
 <body>
-    <form method="POST"  onsubmit="submit_message(event);">
+    <form method="POST" id="linkedinform"> <!--onsubmit="submit_message(event);">-->
         <div class="form-group">
-          <label for="email">Email address</label>
+          <label for="email"><b>Email address</b></label>
           <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
           <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
         </div>
         <div class="form-group">
-          <label for="password">Password</label>
+          <label for="password"><b>Password</b></label>
           <input type="password" class="form-control" id="password" placeholder="Password">
         </div>
         <div class="form-group">
-            <label for="posturl">Post URL</label>
+            <label for="posturl"><b>Post URL</b></label>
             <input type="url" class="form-control" id="posturl" placeholder="URL">
         </div>
         <div class="form-group form-check">
           <input type="checkbox" class="form-check-input" id="downloadpfp">
-          <label class="form-check-label" for="downloadpfp">Download profile pictures</label>
+          <label class="form-check-label" for="downloadpfp"><b>Download profile pictures</b></label>
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
       </form>
       <script src="popup.js"></script>
 </body>
 </html>
-
-<!-- https://www.linkedin.com/posts/arshgoyal_softwareengineering-engineering-productmanagement-activity-6851742264583041024-ULPa -->

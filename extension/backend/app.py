@@ -56,7 +56,9 @@ def collect_data():
     sign_in_button = driver.find_element_by_xpath(Config["sign_in_button_xpath"])
     sign_in_button.click()
 
-    print(driver.current_url)
+    # print(driver.current_url)
+    # print("SIGN IN SUCCESS!")
+    # print(email, download_pfp, post_url)
 
     driver.get(post_url)
 
