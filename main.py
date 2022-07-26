@@ -60,13 +60,13 @@ driver = webdriver.Chrome(
 )
 driver.get("https://www.linkedin.com")
 
-username = driver.find_element_by_name(Config["username_name"])
+username = driver.find_element("name", Config["username_name"])
 username.send_keys(linkedin_username)
 
-password = driver.find_element_by_name(Config["password_name"])
+password = driver.find_element("name", Config["password_name"])
 password.send_keys(linkedin_password)
 
-sign_in_button = driver.find_element_by_xpath(Config["sign_in_button_xpath"])
+sign_in_button = driver.find_element("xpath", Config["sign_in_button_xpath"])
 sign_in_button.click()
 
 driver.get(post_url)
@@ -76,20 +76,21 @@ load_more_comments(Config["load_comments_class"], driver)
 
 # comments = driver.find_elements_by_xpath('//span[@class="ember-view"]')
 # this is bad because in case of comments with mentions or tags, it doesnt work
-comments = driver.find_elements_by_class_name(Config["comment_class"])
+comments = driver.find_elements("class name", Config["comment_class"])
+print(comments)
 comments = [comment.text.strip() for comment in comments]
 
-headlines = driver.find_elements_by_class_name(Config["headline_class"])
+headlines = driver.find_elements("class name", Config["headline_class"])
 headlines = [headline.text.strip() for headline in headlines]
 
 emails = extract_emails(comments)
 
-names = driver.find_elements_by_class_name(Config["name_class"])
+names = driver.find_elements("class name", Config["name_class"])
 names = [name.text.split("\n")[0] for name in names]
 
-avatars = driver.find_elements_by_class_name(Config["avatar_class"])
+avatars = driver.find_elements("class name", Config["avatar_class"])
 avatars = [
-    avatar.find_element_by_tag_name("img").get_attribute("src") for avatar in avatars
+    avatar.find_element("tag name", "img").get_attribute("src") for avatar in avatars
 ]
 
 # DEBUGGING
