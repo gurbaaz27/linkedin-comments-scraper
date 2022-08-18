@@ -5,6 +5,7 @@ from getpass import getpass
 import urllib.request
 import os
 import argparse
+from selenium.webdriver.common.by import By
 
 
 def str2bool(v):
@@ -22,7 +23,7 @@ def check_post_url(post_url):
     if post_url:
         return post_url
     else:
-        print("You haven't entered required post_url in Config.py file!")
+        print("You haven't entered required post_url in config.json file!")
         choice = input("Do you want to enter url now? (y/N) : ")
         if choice.lower() == "y":
             post_url = input("Enter url of post: ")
@@ -66,22 +67,23 @@ def save_credentials(email, password):
 
 def load_more_comments(load_comments_class, driver):
     try:
-        load_more_button = driver.find_element_by_class_name(load_comments_class)
+        load_more_button = driver.find_element(By.CLASS_NAME, load_comments_class)
         print("[", end="", flush=True)
         while True:
             load_more_button.click()
             sleep(5)
             # 5 second sleep works great for medium-speed net...you can increase if this time seems too less and program finishes before loading all comments....you may decrease till 3 if you have fast internet speed
             try:
-                load_more_button = driver.find_element_by_class_name(
-                    load_comments_class
+                load_more_button = driver.find_element(
+                    By.CLASS_NAME, load_comments_class
                 )
             except:
                 print("]")
                 print("All comments have been displayed!")
                 break
             print("#", end="", flush=True)
-    except:
+    except Exception as e:
+        print(e)
         print("All comments are displaying already!")
 
 
