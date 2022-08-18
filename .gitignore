@@ -7,3 +7,5 @@ __pycache__/
 credentials.json
 
 profile-pics*/
+
+venv/
