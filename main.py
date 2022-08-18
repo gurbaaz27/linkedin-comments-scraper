@@ -1,10 +1,10 @@
-from enum import unique
 from utilities import *
 
 from time import time  # Other imports
 from datetime import datetime
 import json
 from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
@@ -57,7 +57,7 @@ print("Initiating the process....")
 options = Options()
 options.headless = args.headless
 driver = webdriver.Chrome(
-    options=options, executable_path=ChromeDriverManager().install()
+    options=options, service=Service(ChromeDriverManager().install())
 )
 driver.get("https://www.linkedin.com")
 
@@ -75,10 +75,10 @@ driver.get(post_url)
 print("Loading comments :", end=" ", flush=True)
 load_more_comments(Config["load_comments_class"], driver)
 
-# comments = driver.find_elements_by_xpath('//span[@class="ember-view"]')
+# comments = driver.find_elements(By.XPATH, '//span[@class="ember-view"]')
 # this is bad because in case of comments with mentions or tags, it doesnt work
 comments = driver.find_elements(By.CLASS_NAME, Config["comment_class"])
-print(comments)
+# print(comments)
 comments = [comment.text.strip() for comment in comments]
 
 headlines = driver.find_elements(By.CLASS_NAME, Config["headline_class"])
