@@ -8,6 +8,7 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
+from bs4 import BeautifulSoup as BSoup
 import csv
 import argparse
 
@@ -77,22 +78,46 @@ load_more_comments(Config["load_comments_class"], driver)
 
 # comments = driver.find_elements(By.XPATH, '//span[@class="ember-view"]')
 # this is bad because in case of comments with mentions or tags, it doesnt work
-comments = driver.find_elements(By.CLASS_NAME, Config["comment_class"])
-# print(comments)
-comments = [comment.text.strip() for comment in comments]
+# comments = driver.find_elements(By.CLASS_NAME, Config["comment_class"])
+# # print(comments)
+# comments = [comment.text.strip() for comment in comments]
 
-headlines = driver.find_elements(By.CLASS_NAME, Config["headline_class"])
-headlines = [headline.text.strip() for headline in headlines]
+# headlines = driver.find_elements(By.CLASS_NAME, Config["headline_class"])
+# headlines = [headline.text.strip() for headline in headlines]
+
+# emails = extract_emails(comments)
+
+# names = driver.find_elements(By.CLASS_NAME, Config["name_class"])
+# names = [name.text.split("\n")[0] for name in names]
+
+# avatars = driver.find_elements(By.CLASS_NAME, Config["avatar_class"])
+# avatars = [
+#     avatar.find_element(By.TAG_NAME, "img").get_attribute("src") for avatar in avatars
+# ]
+
+bs_obj = BSoup(driver.page_source, "html.parser")
+
+comments = bs_obj.find_all("span", {"class": Config["comment_class"]})
+comments = [comment.get_text(strip=True) for comment in comments]
+
+headlines = bs_obj.find_all("span", {"class": Config["headline_class"]})
+headlines = [headline.get_text(strip=True) for headline in headlines]
 
 emails = extract_emails(comments)
 
-names = driver.find_elements(By.CLASS_NAME, Config["name_class"])
-names = [name.text.split("\n")[0] for name in names]
+names = bs_obj.find_all("span", {"class": Config["name_class"]})
+names = [name.get_text(strip=True).split("\n")[0] for name in names]
 
-avatars = driver.find_elements(By.CLASS_NAME, Config["avatar_class"])
-avatars = [
-    avatar.find_element(By.TAG_NAME, "img").get_attribute("src") for avatar in avatars
-]
+_avatars = bs_obj.find_all("a", {"class": Config["avatar_class"]})
+avatars = []
+for a in _avatars:
+    img_link = ""
+    try:
+        img_link = a.find("img")["src"]
+    except:
+        pass
+
+    avatars.append(img_link)
 
 # DEBUGGING
 # print(comments[:10])
