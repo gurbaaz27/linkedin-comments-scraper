@@ -1,6 +1,7 @@
 from utilities import *
 
-from time import time  # Other imports
+from urllib.parse import urljoin
+from time import time
 from datetime import datetime
 import json
 from selenium import webdriver
@@ -108,9 +109,15 @@ emails = extract_emails(comments)
 names = bs_obj.find_all("span", {"class": Config["name_class"]})
 names = [name.get_text(strip=True).split("\n")[0] for name in names]
 
-_avatars = bs_obj.find_all("a", {"class": Config["avatar_class"]})
+BASE_URL = "https://www.linkedin.com/"
+
+profile_links_set = bs_obj.find_all("a", {"class": Config["avatar_class"]})
+profile_links = [
+    urljoin(BASE_URL, profile_link["href"]) for profile_link in profile_links_set
+]
+
 avatars = []
-for a in _avatars:
+for a in profile_links_set:
     img_link = ""
     try:
         img_link = a.find("img")["src"]
@@ -120,17 +127,18 @@ for a in _avatars:
     avatars.append(img_link)
 
 # DEBUGGING
-# print(comments[:10])
-# print(names[:10])
-# print(emails[:10])
-# print(avatars[:10])
+# DEBUG_LENGTH = 10
+# print(names[:DEBUG_LENGTH])
+# print(profile_links[:DEBUG_LENGTH])
+# print(avatars[:DEBUG_LENGTH])
+# print(headlines[:DEBUG_LENGTH])
+# print(emails[:DEBUG_LENGTH])
+# print(comments[:DEBUG_LENGTH])
 
-write_data2csv(names, avatars, headlines, emails, comments, writer)
+write_data2csv(writer, names, profile_links, avatars, headlines, emails, comments)
 
 if args.download_avatars:
-    download_avatars(
-        avatars, names, Config["dirname"] + unique_suffix
-    )
+    download_avatars(avatars, names, Config["dirname"] + unique_suffix)
 
 end = time()  # Finishing Time
 time_spent = end - start  # Time taken by script
