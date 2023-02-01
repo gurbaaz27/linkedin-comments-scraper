@@ -6,6 +6,8 @@ import urllib.request
 import os
 import argparse
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 
 def str2bool(v):
@@ -67,7 +69,7 @@ def save_credentials(email, password):
 
 def load_more_comments(load_comments_class, driver):
     try:
-        load_more_button = driver.find_element(By.CLASS_NAME, load_comments_class)
+        load_more_button = WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.CLASS_NAME, load_comments_class)))
         print("[", end="", flush=True)
         while True:
             load_more_button.click()
