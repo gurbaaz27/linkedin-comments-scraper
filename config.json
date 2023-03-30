@@ -7,6 +7,7 @@
     "headline_class" : "comments-post-meta__headline",
     "name_class" : "comments-post-meta__name",
     "avatar_class" : "comments-post-meta__actor-link",
+    "load_replies_class": "show-prev-replies",
     "filename" : "comments-data",
     "dirname": "profile-pics",
     "post_url": ""

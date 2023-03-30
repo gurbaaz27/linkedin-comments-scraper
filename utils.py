@@ -1,14 +1,20 @@
+import os
 import re
+import sys
 import json
+import urllib.request
 from time import sleep
 from getpass import getpass
-import urllib.request
-import os
-import argparse
+
+from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.action_chains import ActionChains
 
+
+"""
+Redundant piece of Code
 
 def str2bool(v):
     if isinstance(v, bool):
@@ -19,31 +25,31 @@ def str2bool(v):
         return False
     else:
         raise argparse.ArgumentTypeError("Boolean value expected.")
+"""
 
-
-def check_post_url(post_url):
-    if post_url:
-        return post_url
-    else:
+def check_post_url(post_url: str):
+    if not post_url:
         print("You haven't entered required post_url in config.json file!")
-        choice = input("Do you want to enter url now? (y/N) : ")
-        if choice.lower() == "y":
+        choice = input("Do you want to enter url now? (y/N) : ").lower()
+        if choice == "y":
             post_url = input("Enter url of post: ")
             return post_url
-        elif choice.lower() == "n":
-            exit()
+        elif choice == "n":
+            sys.exit()
         else:
             print("Invalid choice!")
-            exit()
+            sys.exit(1)
+
+    return post_url
 
 
-def login_details():
+def login_details() -> tuple[str, str]:
     credentials_exist = True
     try:
         with open(
             "credentials.json",
         ) as f:
-            Creds = json.load(f)
+            Creds: dict[str, str] = json.load(f)
     except:
         credentials_exist = False
 
@@ -59,7 +65,7 @@ def login_details():
     return username, password
 
 
-def save_credentials(email, password):
+def save_credentials(email: str, password: str):
     print("Entering credentials everytime is boring :/")
     choice = input("Do you want to save the login credentials in a json? (y/N) : ")
     if choice.lower() == "y":
@@ -67,29 +73,35 @@ def save_credentials(email, password):
             json.dump({"email": email, "password": password}, f)
 
 
-def load_more_comments(load_comments_class, driver):
+def load_more(target: str, target_class: str, driver: webdriver.Chrome):
+    webdriver_wait = WebDriverWait(driver, 10)
+    action = ActionChains(driver)
+
     try:
-        load_more_button = WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.CLASS_NAME, load_comments_class)))
-        print("[", end="", flush=True)
-        while True:
-            load_more_button.click()
-            sleep(5)
-            # 5 second sleep works great for medium-speed net...you can increase if this time seems too less and program finishes before loading all comments....you may decrease till 3 if you have fast internet speed
-            try:
-                load_more_button = driver.find_element(
-                    By.CLASS_NAME, load_comments_class
-                )
-            except:
-                print("]")
-                print("All comments have been displayed!")
-                break
-            print("#", end="", flush=True)
-    except Exception as e:
-        print(e)
-        print("All comments are displaying already!")
+        load_more_button = webdriver_wait.until(
+            EC.element_to_be_clickable((By.CLASS_NAME, target_class))
+        )
+    except:
+        print(f"All {target} are displaying already!")
+        return
+
+    print("[", end="", flush=True)
+
+    while True:
+        print("#", end="", flush=True)
+        action.move_to_element(load_more_button).click().perform()
+        sleep(2)
+        try:
+            load_more_button = webdriver_wait.until(
+                EC.element_to_be_clickable((By.CLASS_NAME, target_class))
+            )
+        except:
+            print("]")
+            print(f"All {target} have been displayed!")
+            break
 
 
-def extract_emails(comments):
+def extract_emails(comments: list[str]) -> list[str]:
     emails = []
     for comment in comments:
         email_match = re.findall(r"[\w\.-]+@[\w\.-]+\.\w+", comment)
@@ -100,7 +112,15 @@ def extract_emails(comments):
     return emails
 
 
-def write_data2csv(writer, names, profile_links, avatars, headlines, emails, comments):
+def write_data2csv(
+    writer,
+    names: list[str],
+    profile_links: list[str],
+    avatars: list[str],
+    headlines: list[str],
+    emails: list[str],
+    comments: list[str],
+):
     for name, profile_link, avatar, headline, email, comment in zip(
         names, profile_links, avatars, headlines, emails, comments
     ):
@@ -110,7 +130,7 @@ def write_data2csv(writer, names, profile_links, avatars, headlines, emails, com
         # utf-8 encoding helps to deal with emojis
 
 
-def download_avatars(urls, filenames, dir_name):
+def download_avatars(urls: list[str], filenames: list[str], dir_name: str):
     try:
         os.mkdir(dir_name)
     except:

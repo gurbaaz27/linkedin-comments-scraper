@@ -8,6 +8,7 @@
 - [ ] Add support for pulling images in comment section
 - [x] Add headless support 
 - [ ] Chrome extension
+- [x] Show all replies support
 
 ## Brief Overview
 If you have used LinkedIn, you must have encountered many posts regarding helpful resources, and they would ask email address,to which replies in comments are usually like
@@ -47,13 +48,14 @@ post_url = ""
 - You can also change csv file name (in which scraped data will be stored) and dir name (in which profile pics will be downloaded) in `config.json` .
 - Help:
 ```
-usage: main.py [-h] [--headless] [--download-pfp]
+usage: main.py [-h] [--headless] [--show-replies] [--download-pfp]
 
 Linkedin Scraping.
 
-optional arguments:
+options:
   -h, --help      show this help message and exit
   --headless      Go headless browsing
+  --show-replies  Load all replies to comments
   --download-pfp  Download profile pictures of commentors
 ```
 > *__NOTE__*: Even if the flag `--download-pfp` isn't provided, URLs of image would get stored in the output csv.

@@ -1,17 +1,25 @@
-from utilities import *
-
-from urllib.parse import urljoin
+import csv
+import json
+import argparse
 from time import time
 from datetime import datetime
-import json
+from urllib.parse import urljoin
+
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 from bs4 import BeautifulSoup as BSoup
-import csv
-import argparse
+
+from utils import (
+    check_post_url,
+    login_details,
+    load_more,
+    extract_emails,
+    download_avatars,
+    write_data2csv,
+)
 
 parser = argparse.ArgumentParser(description="Linkedin Scraping.")
 
@@ -19,6 +27,10 @@ parser.add_argument(
     "--headless", dest="headless", action="store_true", help="Go headless browsing"
 )
 parser.set_defaults(headless=False)
+parser.add_argument(
+    "--show-replies", dest="show_replies", action="store_true", help="Load all replies to comments"
+)
+parser.set_defaults(show_replies=False)
 
 parser.add_argument(
     "--download-pfp",
@@ -36,7 +48,7 @@ unique_suffix = now.strftime("-%m-%d-%Y--%H-%M")
 with open(
     "config.json",
 ) as f:
-    Config = json.load(f)
+    Config: dict[str, str] = json.load(f)
 
 
 post_url = check_post_url(Config["post_url"])
@@ -61,6 +73,7 @@ options.headless = args.headless
 driver = webdriver.Chrome(
     options=options, service=Service(ChromeDriverManager().install())
 )
+driver.maximize_window()
 driver.get("https://www.linkedin.com")
 
 username = driver.find_element(By.NAME, Config["username_name"])
@@ -75,8 +88,10 @@ sign_in_button.click()
 driver.get(post_url)
 
 print("Loading comments :", end=" ", flush=True)
-load_more_comments(Config["load_comments_class"], driver)
-
+load_more("comments", Config["load_comments_class"], driver)
+if args.show_replies:
+    print("Loading replies :", end=" ", flush=True)
+    load_more("replies", Config["load_replies_class"], driver)
 # comments = driver.find_elements(By.XPATH, '//span[@class="ember-view"]')
 # this is bad because in case of comments with mentions or tags, it doesnt work
 # comments = driver.find_elements(By.CLASS_NAME, Config["comment_class"])
