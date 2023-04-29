@@ -40,6 +40,15 @@ parser.add_argument(
 )
 parser.set_defaults(download_avatars=False)
 
+parser.add_argument(
+    "--save-page-source",
+    dest="save_page_source",
+    action="store_true",
+    help="Safe page source for debugging",
+)
+parser.set_defaults(save_page_source=False)
+
+
 args = parser.parse_args()
 
 now = datetime.now()
@@ -110,6 +119,11 @@ if args.show_replies:
 # avatars = [
 #     avatar.find_element(By.TAG_NAME, "img").get_attribute("src") for avatar in avatars
 # ]
+
+# safe full page source to file, for post-download processing
+if args.save_page_source:
+    with open("page_source.html", "w", encoding='utf-8') as f:
+        f.write(driver.page_source)
 
 bs_obj = BSoup(driver.page_source, "html.parser")
 
