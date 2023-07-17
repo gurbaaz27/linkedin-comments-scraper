@@ -4,13 +4,19 @@ import argparse
 from time import time
 from datetime import datetime
 from urllib.parse import urljoin
+from time import sleep
 
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import Select
 from bs4 import BeautifulSoup as BSoup
+
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
 
 from utils import (
     check_post_url,
@@ -62,7 +68,7 @@ with open(
 
 post_url = check_post_url(Config["post_url"])
 
-##### Writer csv
+# Writer csv
 writer = csv.writer(
     open(
         Config["filename"] + unique_suffix + ".csv",
@@ -76,7 +82,7 @@ linkedin_username, linkedin_password = login_details()
 
 start = time()  # Starting time
 print("Initiating the process....")
-##### Selenium Chrome Driver
+# Selenium Chrome Driver
 options = Options()
 options.headless = args.headless
 driver = webdriver.Chrome(
@@ -95,6 +101,22 @@ sign_in_button = driver.find_element(By.XPATH, Config["sign_in_button_xpath"])
 sign_in_button.click()
 
 driver.get(post_url)
+
+# Locate the dropdown element
+
+dropdown = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, Config["dropdown_xpath"])))
+dropdown.click()
+
+
+# dropdown = driver.find_element()
+# dropdown.click()
+
+most_recent = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, Config["most_recent_xpath"])))
+most_recent.click()
+
+# most_recent = driver.find_element(By.XPATH, Config["most_recent_xpath"])
+# most_recent.click()
+
 
 print("Loading comments :", end=" ", flush=True)
 load_more("comments", Config["load_comments_class"], driver)

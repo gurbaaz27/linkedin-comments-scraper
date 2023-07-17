@@ -2,6 +2,8 @@
     "username_name" : "session_key",
     "password_name" : "session_password",
     "sign_in_button_xpath": "//*[@type='submit']",
+    "dropdown_xpath": "//*[@id='ember71']",
+    "most_recent_xpath": "//*[@id='ember72']",
     "load_comments_class" : "comments-comments-list__load-more-comments-button",
     "comment_class" : "comments-comment-item__main-content",
     "headline_class" : "comments-post-meta__headline",
@@ -10,5 +12,5 @@
     "load_replies_class": "show-prev-replies",
     "filename" : "comments-data",
     "dirname": "profile-pics",
-    "post_url": ""
+    "post_url": "https://www.linkedin.com/posts/myan_internships-jobsearch-activity-7084237344278540288-kZ7W/"
 }

@@ -27,6 +27,7 @@ def str2bool(v):
         raise argparse.ArgumentTypeError("Boolean value expected.")
 """
 
+
 def check_post_url(post_url: str):
     if not post_url:
         print("You haven't entered required post_url in config.json file!")
@@ -67,7 +68,8 @@ def login_details() -> tuple[str, str]:
 
 def save_credentials(email: str, password: str):
     print("Entering credentials everytime is boring :/")
-    choice = input("Do you want to save the login credentials in a json? (y/N) : ")
+    choice = input(
+        "Do you want to save the login credentials in a json? (y/N) : ")
     if choice.lower() == "y":
         with open("credentials.json", "w") as f:
             json.dump({"email": email, "password": password}, f)
@@ -76,6 +78,7 @@ def save_credentials(email: str, password: str):
 def load_more(target: str, target_class: str, driver: webdriver.Chrome):
     webdriver_wait = WebDriverWait(driver, 10)
     action = ActionChains(driver)
+    clicks = 0
 
     try:
         load_more_button = webdriver_wait.until(
@@ -88,6 +91,13 @@ def load_more(target: str, target_class: str, driver: webdriver.Chrome):
     print("[", end="", flush=True)
 
     while True:
+        if clicks > 260:
+            print("]")
+            print(f"All {target} have been displayed!")
+            break
+        else:
+            print(str(clicks) + " total clicks")
+            clicks += 1
         print("#", end="", flush=True)
         action.move_to_element(load_more_button).click().perform()
         sleep(2)
@@ -125,7 +135,8 @@ def write_data2csv(
         names, profile_links, avatars, headlines, emails, comments
     ):
         writer.writerow(
-            [name, profile_link, avatar, headline, email, comment.encode("utf-8")]
+            [name, profile_link, avatar, headline,
+                email, comment.encode("utf-8")]
         )
         # utf-8 encoding helps to deal with emojis
 
