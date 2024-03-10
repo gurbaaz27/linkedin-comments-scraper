@@ -1,7 +1,7 @@
 {
-    "username_name" : "session_key",
-    "password_name" : "session_password",
-    "sign_in_button_xpath": "//*[@type='submit']",
+    "username_name" : "email-or-phone",
+    "password_name" : "password",
+    "sign_in_button_class": "join-form__form-body-submit-button",
     "load_comments_class" : "comments-comments-list__load-more-comments-button",
     "comment_class" : "comments-comment-item__main-content",
     "headline_class" : "comments-post-meta__headline",
