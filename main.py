@@ -91,7 +91,7 @@ username.send_keys(linkedin_username)
 password = driver.find_element(By.NAME, Config["password_name"])
 password.send_keys(linkedin_password)
 
-sign_in_button = driver.find_element(By.XPATH, Config["sign_in_button_xpath"])
+sign_in_button = driver.find_element(By.XPATH, Config["sign_in_button_class"])
 sign_in_button.click()
 
 driver.get(post_url)
