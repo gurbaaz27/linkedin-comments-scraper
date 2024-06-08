@@ -72,3 +72,7 @@ Login email and password for your LinkedIn account will be asked and process wou
 `config.json` contains various fields, containing information about scraping the HTML elements by name or xpath, and other metadata
 
 Suggestions and contributio ns are alwasy welcome!:smile:
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=gurbaaz27/linkedin-comments-scraper&type=Date)](https://star-history.com/#gurbaaz27/linkedin-comments-scraper&Date)
